@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'register_page.dart';
-import 'menu-page.dart'; // Import MenuPage
-
+import 'menu-page.dart'; 
+import 'dashboard_page.dart'; 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -21,6 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   // Email dan password yang sudah ditentukan
   final String _correctEmail = "User@gmail.com"; // Ganti dengan email baru
   final String _correctPassword = "User12345!"; // Ganti dengan password baru
+  final String _adminEmail = "admin"; // Email untuk admin
+  final String _adminPassword = "admin"; // Password untuk admin
 
   // Fungsi untuk memvalidasi email
   bool _validateEmail(String email) {
@@ -40,7 +42,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        // Membungkus body dengan SingleChildScrollView
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Column(
@@ -123,9 +124,15 @@ class _LoginPageState extends State<LoginPage> {
                         // Pindah ke MenuPage setelah login berhasil
                         Navigator.pushReplacement(
                           context,
+                          MaterialPageRoute(builder: (context) => MenuPage()),
+                        );
+                      } else if (_emailController.text == _adminEmail &&
+                          _passwordController.text == _adminPassword) {
+                        // Pindah ke DashboardPage jika login sebagai admin
+                        Navigator.pushReplacement(
+                          context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  MenuPage()), // Arahkan ke MenuPage
+                              builder: (context) => DashboardPage()),
                         );
                       } else {
                         // Tampilkan pesan kesalahan jika email atau password salah
