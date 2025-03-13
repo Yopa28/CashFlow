@@ -1,6 +1,6 @@
 # cashflow
 
-A new Flutter project.
+Program Kasir Sederhana
 
 ## Getting Started
 
