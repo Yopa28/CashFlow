@@ -1,7 +1,11 @@
+import 'package:cashflow/sidemenu.dart';
 import 'package:flutter/material.dart';
+import 'menu_page.dart' as menu;
 import 'register_page.dart';
-import 'menu-page.dart'; 
-import 'dashboard_page.dart'; 
+import 'dashboard_page.dart';
+import 'keranjang_page.dart';
+import 'pesanan_page.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -19,15 +23,15 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
 
   // Email dan password yang sudah ditentukan
-  final String _correctEmail = "User@gmail.com"; // Ganti dengan email baru
-  final String _correctPassword = "User12345!"; // Ganti dengan password baru
-  final String _adminEmail = "admin"; // Email untuk admin
-  final String _adminPassword = "admin"; // Password untuk admin
+  final String _correctEmail = "User@gmail.com"; // Ganti dengan email User
+  final String _correctPassword = "User12345!"; // Ganti dengan password User
+  final String _adminEmail = "Admin@gmail.com"; // Email Admin
+  final String _adminPassword = "Admin12345!"; // Password Admin
 
   // Fungsi untuk memvalidasi email
   bool _validateEmail(String email) {
     final emailRegExp =
-        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+        RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\.[a-zA-Z]{2,}$');
     return emailRegExp.hasMatch(email);
   }
 
@@ -42,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        // Membungkus body dengan SingleChildScrollView
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Column(
@@ -121,18 +126,21 @@ class _LoginPageState extends State<LoginPage> {
                       // Cek jika email dan password cocok dengan yang sudah ditentukan
                       if (_emailController.text == _correctEmail &&
                           _passwordController.text == _correctPassword) {
-                        // Pindah ke MenuPage setelah login berhasil
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(builder: (context) => MenuPage()),
-                        );
-                      } else if (_emailController.text == _adminEmail &&
-                          _passwordController.text == _adminPassword) {
-                        // Pindah ke DashboardPage jika login sebagai admin
+                        // Pindah ke MenuPage setelah login berhasil untuk User
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => DashboardPage()),
+                              builder: (context) => menu
+                                  .MenuPage()), // Arahkan ke MenuPage untuk User
+                        );
+                      } else if (_emailController.text == _adminEmail &&
+                          _passwordController.text == _adminPassword) {
+                        // Pindah ke DashboardPage setelah login berhasil untuk Admin
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  DashboardPage()), // Arahkan ke DashboardPage untuk Admin
                         );
                       } else {
                         // Tampilkan pesan kesalahan jika email atau password salah

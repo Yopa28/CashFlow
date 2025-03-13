@@ -1,82 +1,104 @@
 import 'package:flutter/material.dart';
 
-class MenuPage extends StatelessWidget {
-  const MenuPage({super.key});
+void main() => runApp(MyApp());
 
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: MenuPage(),
+    );
+  }
+}
+
+class MenuPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text(
+        title: Text(
           'CashFlow',
           style: TextStyle(
             color: Colors.black,
             fontWeight: FontWeight.bold,
-            fontFamily: 'Lobster', // Font gaya tulisan CashFlow
+            fontFamily: 'Lobster', // Gaya font CashFlow
           ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.teal),
+            icon: Icon(Icons.shopping_cart, color: Colors.teal),
             onPressed: () {
-              // Aksi pencarian
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.teal),
-            onPressed: () {
-              // Aksi menu
+              // Aksi untuk cart
             },
           ),
         ],
       ),
-      body: Column(
-        children: [
-          // Search bar
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: TextField(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // Search bar
+            TextField(
               decoration: InputDecoration(
                 hintText: 'Search',
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: Icon(Icons.search),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 0),
               ),
             ),
-          ),
-          // GridView of food items
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
+            SizedBox(height: 20),
+            // Category Filter
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                FilterChip(label: Text('All'), onSelected: (_) {}),
+                FilterChip(label: Text('Makanan'), onSelected: (_) {}),
+                FilterChip(label: Text('Minuman'), onSelected: (_) {}),
+              ],
+            ),
+            SizedBox(height: 20),
+            // Grid of food and drinks
+            Expanded(
               child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // Menampilkan 2 gambar per baris
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
                 ),
                 itemCount: 4, // Menampilkan 4 gambar
                 itemBuilder: (context, index) {
-                  // Daftar gambar yang ingin ditampilkan
                   List<String> images = [
                     'assets/burger1.jpg', // Gambar pertama
-                    'assets/images/burger2.jpg', // Gambar kedua
-                    'assets/images/burger3.jpg', // Gambar ketiga
+                    'assets/EsTeh.jpg', // Gambar kedua
+                    'assets/milo.png', // Gambar ketiga
                     'assets/images/burger4.jpg', // Gambar keempat
                   ];
-
                   return FoodItemCard(
-                    imageUrl: images[2], // Ganti dengan gambar sesuai indeks
+                    imageUrl:
+                        images[index], // Ganti dengan gambar sesuai indeks
                     name: 'Food Item ${index + 1}',
-                    rating: 4.5 + index * 0.1, // Rating untuk setiap item
+                    rating: 4.5 + index * 0.1,
                   );
                 },
               ),
             ),
-          ),
-        ],
+            // Add to Cart button
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 12.0),
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+                onPressed: () {
+                  // Action for Add to Cart
+                },
+                child:
+                    Text('ADD TO CART', style: TextStyle(color: Colors.white)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -87,7 +109,7 @@ class FoodItemCard extends StatelessWidget {
   final String name;
   final double rating;
 
-  const FoodItemCard({super.key, 
+  const FoodItemCard({
     required this.imageUrl,
     required this.name,
     required this.rating,
@@ -103,9 +125,8 @@ class FoodItemCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Food image
           ClipRRect(
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               topLeft: Radius.circular(15),
               topRight: Radius.circular(15),
             ),
@@ -120,25 +141,22 @@ class FoodItemCard extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               name,
-              style: const TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.star,
                   color: Colors.amber,
                   size: 16,
                 ),
-                const SizedBox(width: 5),
+                SizedBox(width: 5),
                 Text(
                   '$rating',
-                  style: const TextStyle(fontSize: 14),
+                  style: TextStyle(fontSize: 14),
                 ),
               ],
             ),
@@ -146,12 +164,12 @@ class FoodItemCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              icon: const Icon(
-                Icons.favorite_border,
-                color: Colors.red,
+              icon: Icon(
+                Icons.add,
+                color: Colors.teal,
               ),
               onPressed: () {
-                // Logic untuk menambahkan ke favorit
+                // Logic to add item to cart
               },
             ),
           ),
